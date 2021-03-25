@@ -1,0 +1,44 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                     "$projectDir/schemas".toString()]
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation project(path: ':library-base')
+
+    api rootProject.ext.dependencies["room-runtime"]
+    annotationProcessor rootProject.ext.dependencies["room-compiler"]
+
+    // optional - RxJava support for Room
+    api rootProject.ext.dependencies["room-rxjava2"]
+
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    api rootProject.ext.dependencies["room-guava"]
+
+    // optional - Test helpers
+    testImplementation rootProject.ext.dependencies["room-testing"]
+}

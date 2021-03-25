@@ -1,0 +1,78 @@
+ext {
+    //android开发版本配置
+    android = [
+            compileSdkVersion: 30,
+            buildToolsVersion: "30.0.3",
+            applicationId    : "com.my.myframework",
+            minSdkVersion    : 21,
+            targetSdkVersion : 28,
+            versionCode      : 1,
+            versionName      : "1.0",
+            minifyEnabled    : false,
+            multiDexEnabled  : true,
+            zipAlignEnabled  : true,
+    ]
+
+    //签名信息
+    sign = [
+            storeFile    : 'myframework.jks',
+            keyAlias     : 'myframework',
+            storePassword: '123456',
+            keyPassword  : '123456',
+    ]
+
+    //version配置
+    versions = [
+            "junit-version"       : "4.+",
+            arouterApiVersion     : "1.5.0",
+            arouterCompilerVersion: "1.2.2",
+            butterknifeVersion    : "10.0.0",
+            eventbusVersion       : "3.1.1",
+            room                  : "2.2.6",
+    ]
+    //support配置
+    support = [
+            'androidx'              : "androidx.appcompat:appcompat:1.2.0",
+            'android.material'      : "com.google.android.material:material:1.2.1",
+            "constraintlayout"      : "androidx.constraintlayout:constraintlayout:2.0.4",
+            'junit'                 : "junit:junit:${versions["junit-version"]}",
+            "androidx.test.ext"     : "androidx.test.ext:junit:1.1.2",
+            "androidx.test.espresso": "androidx.test.espresso:espresso-core:3.3.0",
+    ]
+    //依赖第三方配置
+    dependencies = [
+            //阿里路由
+            "arouter_api"                : "com.alibaba:arouter-api:${versions["arouterApiVersion"]}",
+            "arouter_compiler"           : "com.alibaba:arouter-compiler:${versions["arouterCompilerVersion"]}",
+            //黄油刀
+            "butterknife"                : "com.jakewharton:butterknife:${versions["butterknifeVersion"]}",
+            "butterknife_compiler"       : "com.jakewharton:butterknife-compiler:${versions["butterknifeVersion"]}",
+            "eventbus"                   : "org.greenrobot:eventbus:${versions["eventbusVersion"]}",
+            "bugly-crashreport"          : "com.tencent.bugly:crashreport_upgrade:1.3.6",
+            "bugly-nativecrashreport"    : "com.tencent.bugly:nativecrashreport:3.3.1",
+            "tinker"                     : "com.tencent.tinker:tinker-android-lib:1.9.9",
+            "multidex"                   : "com.android.support:multidex:1.0.1",
+            "mmkv"                       : "com.tencent:mmkv-static:1.2.7",
+            "fastjson"                   : "com.alibaba:fastjson:1.2.73",
+            "eventbus"                   : "org.greenrobot:eventbus:3.1.1",
+            "room-runtime"               : "androidx.room:room-runtime:${versions["room"]}",
+            "room-compiler"              : "androidx.room:room-compiler:${versions["room"]}",
+            "room-rxjava2"               : "androidx.room:room-rxjava2:${versions["room"]}",
+            "room-guava"                 : "androidx.room:room-guava:${versions["room"]}",
+            "room-testing"               : "androidx.room:room-testing:${versions["room"]}",
+            "rxandroid"                  : "io.reactivex.rxjava2:rxandroid:2.0.2",
+            "rxjava"                     : "io.reactivex.rxjava2:rxjava:2.2.3",
+
+            "retrofit2:converter-gson"   : "com.squareup.retrofit2:converter-gson:2.0.1",
+            "retrofit2:retrofit"         : "com.squareup.retrofit2:retrofit:2.0.1",
+            "retrofit2:adapter-rxjava2"  : "com.squareup.retrofit2:adapter-rxjava2:2.2.0",
+            "gson"                       : "com.google.code.gson:gson:2.4",
+            "okhttp3:logging-interceptor": "com.squareup.okhttp3:logging-interceptor:3.4.1",
+            "okhttp3:okhttp"             : "com.squareup.okhttp3:okhttp:3.4.1",
+            "PersistentCookieJar"        : "com.github.franmontiel:PersistentCookieJar:v1.0.1",
+            "httpcore"                   : "org.apache.httpcomponents:httpcore:4.4.4",
+
+    ]
+}
+
+

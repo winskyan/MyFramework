@@ -1,0 +1,23 @@
+apply from: "../module.build.gradle"
+
+android {
+    defaultConfig {
+        //如果是独立模块，则使用当前组件的包名
+        if (isBuildModule.toBoolean()) {
+            applicationId "com.my.myframework.settings"
+        }
+    }
+
+    //统一资源前缀，规范资源引用
+    resourcePrefix "settings_"
+}
+
+dependencies {
+    implementation project(path: ':library-base')
+    implementation project(path: ':library-res')
+
+    // 黄油刀
+    annotationProcessor rootProject.ext.dependencies["butterknife_compiler"]
+    // Arouter路由
+    annotationProcessor rootProject.ext.dependencies["arouter_compiler"]
+}

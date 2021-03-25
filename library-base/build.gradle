@@ -1,0 +1,66 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+
+        //阿里路由框架配置
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled rootProject.ext.android.minifyEnabled
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            buildConfigField("boolean", "LOG_DEBUG", "false")
+        }
+        debug {
+            minifyEnabled rootProject.ext.android.minifyEnabled
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("boolean", "LOG_DEBUG", "true")
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    //公用的support相关库在base中依赖
+    api rootProject.ext.support["androidx"]
+    api rootProject.ext.support["android.material"]
+    api rootProject.ext.support["constraintlayout"]
+    implementation 'org.jetbrains:annotations-java5:15.0'
+    androidTestImplementation rootProject.ext.support["androidx.test.ext"]
+    androidTestImplementation rootProject.ext.support["androidx.test.espresso"]
+    testImplementation rootProject.ext.support["junit"]
+
+    //黄油刀
+    api rootProject.ext.dependencies["butterknife"]
+    annotationProcessor rootProject.ext.dependencies["butterknife_compiler"]
+
+    // Arouter路由
+    api rootProject.ext.dependencies["arouter_api"]
+    annotationProcessor rootProject.ext.dependencies["arouter_compiler"]
+
+    api files('libs\\android-logging-log4j-1.0.2.jar')
+    api files('libs\\log4j-1.2.17.jar')
+    implementation files('libs\\slf4j-api-1.7.24.jar')
+    implementation files('libs\\slf4j-log4j12-1.7.24.jar')
+
+    api rootProject.ext.dependencies["mmkv"]
+    api rootProject.ext.dependencies["fastjson"]
+    api rootProject.ext.dependencies["eventbus"]
+
+    api rootProject.ext.dependencies["rxandroid"]
+    api rootProject.ext.dependencies["rxjava"]
+}

@@ -1,0 +1,8 @@
+include ':library-net'
+include ':library-db'
+include ':module-settings'
+include ':module-main'
+include ':library-res'
+include ':library-base'
+include ':app'
+rootProject.name = "MyFramework"

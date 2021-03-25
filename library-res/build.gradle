@@ -1,0 +1,49 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+    }
+
+    sourceSets {
+        main {
+            if (isBuildModule.toBoolean()) {
+            } else {
+                resources {
+                    //正式版本时，排除debug文件夹下所有调试文件
+                    exclude 'src/debug/*'
+                }
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    //公用的support相关库在base中依赖
+    api rootProject.ext.support["androidx"]
+    api rootProject.ext.support["android.material"]
+    api rootProject.ext.support["constraintlayout"]
+    androidTestImplementation rootProject.ext.support["androidx.test.ext"]
+    androidTestImplementation rootProject.ext.support["androidx.test.ext"]
+    testImplementation rootProject.ext.support["junit"]
+}

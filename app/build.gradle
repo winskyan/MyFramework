@@ -1,0 +1,111 @@
+plugins {
+    id 'com.android.application'
+}
+
+static def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        applicationId rootProject.ext.android.applicationId
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        multiDexEnabled rootProject.ext.android.multiDexEnabled
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            'armeabi'//, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
+
+        //阿里路由框架配置
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+    signingConfigs {
+        release {
+            try {
+                storeFile file(rootProject.ext.sign.storeFile)
+                keyAlias rootProject.ext.sign.keyAlias
+                storePassword rootProject.ext.sign.storePassword
+                keyPassword rootProject.ext.sign.keyPassword
+            } catch (ex) {
+                throw new InvalidUserDataException(ex.toString())
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled rootProject.ext.android.minifyEnabled
+            zipAlignEnabled rootProject.ext.android.zipAlignEnabled
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            minifyEnabled rootProject.ext.android.minifyEnabled
+            zipAlignEnabled rootProject.ext.android.zipAlignEnabled
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "MyFramework_${defaultConfig.versionName}_${defaultConfig.versionCode}_${variant.buildType.name}_${releaseTime()}.apk"
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    if (isBuildModule.toBoolean()) {
+        implementation project(path: ':library-base')
+        implementation project(path: ':library-res')
+    } else {
+        implementation project(path: ':library-base')
+        implementation project(path: ':library-res')
+        implementation project(path: ':module-main')
+        implementation project(path: ':module-settings')
+        implementation project(path: ':library-db')
+        implementation project(path: ':library-net')
+    }
+
+    implementation rootProject.ext.dependencies["multidex"]
+    implementation rootProject.ext.dependencies["bugly-crashreport"]
+    implementation rootProject.ext.dependencies["bugly-nativecrashreport"]
+    implementation rootProject.ext.dependencies["tinker"]
+
+    // 黄油刀
+    annotationProcessor rootProject.ext.dependencies["butterknife_compiler"]
+    // Arouter路由
+    annotationProcessor rootProject.ext.dependencies["arouter_compiler"]
+}
+
+apply from: 'tinker-support.gradle'

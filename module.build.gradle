@@ -1,0 +1,70 @@
+apply plugin: 'com.jakewharton.butterknife'
+
+if (isBuildModule.toBoolean()) {
+    //作为独立App应用运行
+    apply plugin: 'com.android.application'
+} else {
+    //作为组件运行
+    apply plugin: 'com.android.library'
+}
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ AROUTER_MODULE_NAME : project.getName() ]
+            }
+        }
+    }
+
+    // Butterknife requires Java 8.
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        main {
+            if (isBuildModule.toBoolean()) {
+                //独立运行
+                manifest.srcFile 'src/main/alone/AndroidManifest.xml'
+            } else {
+                //合并到宿主
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                resources {
+                    //正式版本时，排除alone文件夹下所有调试文件
+                    exclude 'src/main/alone/*'
+                }
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled rootProject.ext.android.minifyEnabled
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            buildConfigField("boolean", "LOG_DEBUG", "false")
+        }
+        debug {
+            minifyEnabled rootProject.ext.android.minifyEnabled
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("boolean", "LOG_DEBUG", "true")
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+}
+
+

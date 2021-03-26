@@ -23,19 +23,19 @@ eventbus
 
 网络：retorfit2+Rxjava+okhttp
 
-开发中：
-
 图片：glide，LuckSiege，ImagePreview
 
 Gif：lottie
 
-移动端组件库：chameleon
+开发中：
 
-tinker
+permission
 
 自定义控件
 
-permission
+移动端组件库：chameleon
+
+tinker
 
 mmvm模式
 

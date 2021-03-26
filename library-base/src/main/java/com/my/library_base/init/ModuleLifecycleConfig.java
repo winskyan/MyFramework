@@ -2,9 +2,9 @@ package com.my.library_base.init;
 
 import android.app.Application;
 
-import com.my.library_base.logs.GLog;
+import androidx.annotation.Nullable;
 
-import org.jetbrains.annotations.Nullable;
+import com.my.library_base.logs.GLog;
 
 /**
  * Created by yan on 2020/7/15

@@ -31,6 +31,11 @@ android {
             buildConfigField("boolean", "LOG_DEBUG", "true")
         }
     }
+
+    configurations {
+        //排除 prism4j 里的
+        compile.exclude group: 'org.jetbrains' , module:'annotations-java5'
+    }
 }
 
 dependencies {
@@ -44,13 +49,8 @@ dependencies {
     androidTestImplementation rootProject.ext.support["androidx.test.espresso"]
     testImplementation rootProject.ext.support["junit"]
 
-    //黄油刀
     api rootProject.ext.dependencies["butterknife"]
-    annotationProcessor rootProject.ext.dependencies["butterknife_compiler"]
-
-    // Arouter路由
     api rootProject.ext.dependencies["arouter_api"]
-    annotationProcessor rootProject.ext.dependencies["arouter_compiler"]
 
     api files('libs\\android-logging-log4j-1.0.2.jar')
     api files('libs\\log4j-1.2.17.jar')
@@ -63,4 +63,8 @@ dependencies {
 
     api rootProject.ext.dependencies["rxandroid"]
     api rootProject.ext.dependencies["rxjava"]
+    api rootProject.ext.dependencies["glide"]
+    api rootProject.ext.dependencies["PictureSelector"]
+    api rootProject.ext.dependencies["ImagePreview"]
+    api rootProject.ext.dependencies["lottie"]
 }

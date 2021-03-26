@@ -106,6 +106,8 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies["butterknife_compiler"]
     // Arouter路由
     annotationProcessor rootProject.ext.dependencies["arouter_compiler"]
+
+    annotationProcessor rootProject.ext.dependencies["glide:compiler"]
 }
 
-apply from: 'tinker-support.gradle'
+//apply from: 'tinker-support.gradle'

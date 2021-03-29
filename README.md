@@ -27,15 +27,13 @@ eventbus
 
 Gif：lottie
 
-开发中：
-
 permission
 
-自定义控件
+自定义控件（暂无添加）
 
-移动端组件库：chameleon
+移动端组件库：chameleon（暂无添加）
 
-tinker
+tinker（冲突，暂无解决）
 
 mmvm模式
 

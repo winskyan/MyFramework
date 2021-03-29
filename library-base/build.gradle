@@ -49,6 +49,8 @@ dependencies {
     androidTestImplementation rootProject.ext.support["androidx.test.espresso"]
     testImplementation rootProject.ext.support["junit"]
 
+    implementation project(path: ':library-res')
+
     api rootProject.ext.dependencies["butterknife"]
     api rootProject.ext.dependencies["arouter_api"]
 
@@ -63,8 +65,5 @@ dependencies {
 
     api rootProject.ext.dependencies["rxandroid"]
     api rootProject.ext.dependencies["rxjava"]
-    api rootProject.ext.dependencies["glide"]
-    api rootProject.ext.dependencies["PictureSelector"]
-    api rootProject.ext.dependencies["ImagePreview"]
-    api rootProject.ext.dependencies["lottie"]
+    api rootProject.ext.dependencies["xxpermissions"]
 }

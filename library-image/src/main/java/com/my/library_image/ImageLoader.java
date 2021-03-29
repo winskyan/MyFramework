@@ -1,4 +1,4 @@
-package com.my.library_base.picture;
+package com.my.library_image;
 
 
 import android.content.Context;

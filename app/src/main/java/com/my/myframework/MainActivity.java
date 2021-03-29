@@ -1,14 +1,19 @@
 package com.my.myframework;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
+import com.hjq.permissions.OnPermissionCallback;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -16,14 +21,14 @@ import com.luck.picture.lib.listener.OnResultCallbackListener;
 import com.my.library_base.constants.EventBusConstants;
 import com.my.library_base.init.ARouterPath;
 import com.my.library_base.model.EventBusMessageEvent;
-import com.my.library_base.picture.GlideEngine;
-import com.my.library_base.picture.ImageLoader;
-import com.my.library_base.picture.UserViewInfo;
 import com.my.library_base.utils.MMKVUtils;
 import com.my.library_base.utils.Utils;
 import com.my.library_db.callback.UserCallback;
 import com.my.library_db.db.UserDatabase;
 import com.my.library_db.model.User;
+import com.my.library_image.GlideEngine;
+import com.my.library_image.ImageLoader;
+import com.my.library_image.UserViewInfo;
 import com.my.library_net.callback.ResponseCallback;
 import com.my.library_net.exception.ThrowableHandler;
 import com.my.library_net.net.LoginManage;
@@ -71,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick({R.id.test_app_btn, R.id.test_eventbus_btn, R.id.test_mmkv_btn, R.id.test_room_btn, R.id.test_http_btn, R.id.test_pictureselector_btn
-            , R.id.test_imagepreview_btn})
+            , R.id.test_imagepreview_btn, R.id.test_xxpermission_btn})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.test_app_btn:
@@ -176,13 +181,67 @@ public class MainActivity extends AppCompatActivity {
                         .setType(GPreviewBuilder.IndicatorType.Number)//指示器类型
                         .start();//启动
                 break;
+            case R.id.test_xxpermission_btn:
+                XXPermissions.with(this)
+                        // 申请安装包权限
+                        //.permission(Permission.REQUEST_INSTALL_PACKAGES)
+                        // 申请悬浮窗权限
+                        //.permission(Permission.SYSTEM_ALERT_WINDOW)
+                        // 申请通知栏权限
+                        //.permission(Permission.NOTIFICATION_SERVICE)
+                        // 申请系统设置权限
+                        //.permission(Permission.WRITE_SETTINGS)
+                        // 申请单个权限
+                        .permission(Permission.READ_PHONE_STATE)
+                        // 申请多个权限
+                        .permission(Permission.WRITE_EXTERNAL_STORAGE)
+                        .request(new OnPermissionCallback() {
+
+                            @Override
+                            public void onGranted(List<String> permissions, boolean all) {
+                                if (all) {
+                                    toast("获取读取手机状态和写SD卡权限成功");
+                                } else {
+                                    toast("获取部分权限成功，但部分权限未正常授予");
+                                }
+                            }
+
+                            @Override
+                            public void onDenied(List<String> permissions, boolean never) {
+                                if (never) {
+                                    toast("被永久拒绝授权，请手动授予读取手机状态和写SD卡权限");
+                                    // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                    XXPermissions.startPermissionActivity(MainActivity.this, permissions);
+                                } else {
+                                    toast("获取录音和日历权限失败");
+                                }
+                            }
+                        });
+                break;
         }
     }
 
     // 在主线程展示 Toast 结果
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(EventBusMessageEvent event) {
-        Toast.makeText(this, event.getMessage(), Toast.LENGTH_SHORT).show();
+        toast(event.getMessage());
+    }
+
+    private void toast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == XXPermissions.REQUEST_CODE) {
+            if (XXPermissions.isGranted(this, Permission.READ_PHONE_STATE) &&
+                    XXPermissions.isGranted(this, Permission.WRITE_EXTERNAL_STORAGE)) {
+                toast("用户已经在权限设置页授予了获取读取手机状态和写SD卡权限");
+            } else {
+                toast("用户没有在权限设置页授予权限");
+            }
+        }
     }
 
     @Override

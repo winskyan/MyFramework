@@ -1,8 +1,9 @@
-package com.my.library_base.picture;
+package com.my.library_image;
 
 
 import android.graphics.Rect;
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import androidx.annotation.Nullable;
 
@@ -85,7 +86,7 @@ public class UserViewInfo implements IThumbViewInfo {
         this.videoUrl = in.readString();
     }
 
-    public static final Creator<UserViewInfo> CREATOR = new Creator<UserViewInfo>() {
+    public static final Parcelable.Creator<UserViewInfo> CREATOR = new Parcelable.Creator<UserViewInfo>() {
         @Override
         public UserViewInfo createFromParcel(Parcel source) {
             return new UserViewInfo(source);

@@ -95,6 +95,7 @@ dependencies {
         implementation project(path: ':module-settings')
         implementation project(path: ':library-db')
         implementation project(path: ':library-net')
+        implementation project(path: ':library-image')
     }
 
     implementation rootProject.ext.dependencies["multidex"]

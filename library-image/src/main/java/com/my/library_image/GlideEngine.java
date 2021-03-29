@@ -1,4 +1,4 @@
-package com.my.library_base.picture;
+package com.my.library_image;
 
 
 import android.content.Context;
@@ -23,7 +23,6 @@ import com.luck.picture.lib.tools.MediaUtils;
 import com.luck.picture.lib.widget.longimage.ImageSource;
 import com.luck.picture.lib.widget.longimage.ImageViewState;
 import com.luck.picture.lib.widget.longimage.SubsamplingScaleImageView;
-import com.my.library_base.R;
 
 public class GlideEngine implements ImageEngine {
 

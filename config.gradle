@@ -76,6 +76,7 @@ ext {
             "PictureSelector"            : "com.github.LuckSiege.PictureSelector:picture_library:v2.6.0",
             "ImagePreview"               : "com.ycjiang:ImagePreview:2.3.5",
             "lottie"                     : "com.airbnb.android:lottie:2.7.0",
+            "xxpermissions"              : "com.hjq:xxpermissions:10.6",
 
     ]
 }

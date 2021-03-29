@@ -15,8 +15,10 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/library-base" />
             <option value="$PROJECT_DIR$/library-db" />
+            <option value="$PROJECT_DIR$/library-image" />
             <option value="$PROJECT_DIR$/library-net" />
             <option value="$PROJECT_DIR$/library-res" />
+            <option value="$PROJECT_DIR$/library-ui" />
             <option value="$PROJECT_DIR$/module-main" />
             <option value="$PROJECT_DIR$/module-settings" />
           </set>

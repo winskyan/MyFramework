@@ -8,7 +8,7 @@ import android.os.Build;
 
 import androidx.multidex.MultiDex;
 
-import com.my.library_base.config.Config;
+import com.my.library_base.config.SysConfig;
 import com.my.library_base.init.ModuleLifecycleConfig;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
@@ -24,7 +24,7 @@ public class MyApplicationLike extends DefaultApplicationLike {
         super.onCreate();
         // 这里实现SDK初始化，appId替换成你的在Bugly平台申请的appId
         // 调试时，将第三个参数改为true
-        if (Config.BUGLY_CRASH_ENABLE) {
+        if (SysConfig.BUGLY_CRASH_ENABLE) {
             Bugly.init(getApplication(), "ad480f08fa", false);
         }
 
@@ -40,7 +40,7 @@ public class MyApplicationLike extends DefaultApplicationLike {
 
         // 安装tinker
         // TinkerManager.installTinker(this); 替换成下面Bugly提供的方法
-        if (Config.TINKER_ENABLE) {
+        if (SysConfig.TINKER_ENABLE) {
             Beta.installTinker(this);
         }
     }

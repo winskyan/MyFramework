@@ -1,3 +1,5 @@
+include ':library-image'
+include ':library-ui'
 include ':library-net'
 include ':library-db'
 include ':module-settings'

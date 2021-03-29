@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.hjq.permissions.XXPermissions;
 import com.my.library_base.BuildConfig;
 import com.my.library_base.logs.ConfigureLog4j;
 import com.my.library_base.logs.GLog;
@@ -38,6 +39,9 @@ public class BaseModuleInit implements IModuleInit {
         ARouter.init(application); // 尽可能早，推荐在Application中初始化
 
         MMKV.initialize(application);
+
+        // 当前项目是否已经适配了分区存储的特性
+        XXPermissions.setScopedStorage(true);
         return true;
     }
 

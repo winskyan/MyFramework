@@ -4,7 +4,7 @@ import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
-import com.my.library_base.config.Config;
+import com.my.library_base.config.SysConfig;
 import com.my.library_net.NetModuleInit;
 import com.my.library_net.constants.Constants;
 import com.my.library_net.converter.GsonConverterFactory;
@@ -49,11 +49,11 @@ public class RetrofitManager {
         //调试模式打印Log日志
         HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor();
 
-        if (Config.CAPTURE_PACK_DISABLE) {
+        if (SysConfig.CAPTURE_PACK_DISABLE) {
             builder.proxy(Proxy.NO_PROXY);
         }
 
-        if (Config.HTTP_LOG) {
+        if (SysConfig.HTTP_LOG) {
             //显示日志
             logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         } else {

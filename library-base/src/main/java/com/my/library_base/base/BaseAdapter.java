@@ -6,23 +6,17 @@ import java.util.List;
 
 import android.app.Activity;
 
-/**
- * Adapter基类
- * 
- * @author 曾繁添
- * @version 1.0
- * 
- */
-public abstract class BaseAdapter extends android.widget.BaseAdapter {
+import org.apache.log4j.Logger;
 
+
+public abstract class BaseAdapter extends android.widget.BaseAdapter {
+	protected Logger logger = Logger.getLogger(this.getClass());
 	/** 数据存储集合 **/
-	private List<Object> mDataList = new ArrayList<Object>();
+	private List<Object> mDataList = new ArrayList<>();
 	/** Context上下文 **/
 	private Activity mContext;
 	/** 每一页显示条数 **/
 	private int mPerPageSize = 10;
-	/**日志输出标志**/
-	protected final String TAG = this.getClass().getSimpleName();
 
 	public BaseAdapter() {
 		this(null);

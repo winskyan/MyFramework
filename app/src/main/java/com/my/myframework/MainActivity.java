@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
@@ -18,6 +18,7 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
+import com.my.library_base.base.BaseActivity;
 import com.my.library_base.constants.EventBusConstants;
 import com.my.library_base.init.ARouterPath;
 import com.my.library_base.model.EventBusMessageEvent;
@@ -34,6 +35,8 @@ import com.my.library_net.exception.ThrowableHandler;
 import com.my.library_net.net.LoginManage;
 import com.my.library_net.response.Response;
 import com.my.library_net.response.body.LoginBean;
+import com.my.myframework.databinding.ActivityMainBinding;
+import com.my.myframework.viewmodel.MainViewModel;
 import com.previewlibrary.GPreviewBuilder;
 import com.previewlibrary.ZoomMediaLoader;
 
@@ -51,7 +54,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 @Route(path = ARouterPath.APP_MAIN_ACTIVITY)
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> {
 
     Logger logger = Logger.getLogger(MainActivity.class);
 
@@ -59,20 +62,44 @@ public class MainActivity extends AppCompatActivity {
     ImageView testGlide;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public void initData() {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
 
         ZoomMediaLoader.getInstance().init(new ImageLoader());
-
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void initViewObservable() {
+        viewModel.getUserData().observe(this, new Observer<com.my.myframework.model.User>() {
+
+            @Override
+            public void onChanged(com.my.myframework.model.User user) {
+                if (user == null) {
+                    return;
+                }
+                // do something about UI
+                logger.info("data bindging :" + user);
+            }
+        });
+    }
+
+
+    @Override
+    public void resume() {
         Glide.with(this).load("https://dss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/img/icons_441e82f.png").into(testGlide);
+        viewModel.initUser();
+    }
+
+
+    @Override
+    public int initContentView(Bundle savedInstanceState) {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public int initVariableId() {
+        return BR.mainViewModel;
     }
 
     @OnClick({R.id.test_app_btn, R.id.test_eventbus_btn, R.id.test_mmkv_btn, R.id.test_room_btn, R.id.test_http_btn, R.id.test_pictureselector_btn
@@ -104,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onLoadUsers(List<User> users) {
                         Toast.makeText(MainActivity.this, "查询用户成功", Toast.LENGTH_SHORT).show();
                         for (User u : users) {
-                            logger.info(u);
+                            logger.info("查询用户成功" + u);
                         }
                     }
 
@@ -245,8 +272,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    public void destroy() {
         EventBus.getDefault().unregister(this);
-        super.onDestroy();
     }
 }

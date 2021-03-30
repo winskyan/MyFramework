@@ -77,6 +77,10 @@ ext {
             "ImagePreview"               : "com.ycjiang:ImagePreview:2.3.5",
             "lottie"                     : "com.airbnb.android:lottie:2.7.0",
             "xxpermissions"              : "com.hjq:xxpermissions:10.6",
+            "lifecycle-extensions"       : "androidx.lifecycle:lifecycle-extensions:2.0.0",
+            "lifecycle-compiler"         : "androidx.lifecycle:lifecycle-compiler:2.0.0",
+            "databinding:library"        : "com.android.databinding:library:1.3.1",
+            "rxlifecycle-components"     : "com.trello.rxlifecycle2:rxlifecycle-components:2.2.2",
 
     ]
 }

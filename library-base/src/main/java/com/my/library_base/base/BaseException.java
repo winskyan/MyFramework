@@ -2,7 +2,6 @@ package com.my.library_base.base;
 
 /**
  * 异常基类
- * @author 曾繁添
  * @version 1.0
  *
  */

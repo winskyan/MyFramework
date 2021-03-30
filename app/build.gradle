@@ -81,6 +81,10 @@ android {
             outputFileName = "MyFramework_${defaultConfig.versionName}_${defaultConfig.versionCode}_${variant.buildType.name}_${releaseTime()}.apk"
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -109,6 +113,7 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies["arouter_compiler"]
 
     annotationProcessor rootProject.ext.dependencies["glide:compiler"]
+    annotationProcessor rootProject.ext.dependencies["lifecycle-compiler"]
 }
 
 //apply from: 'tinker-support.gradle'

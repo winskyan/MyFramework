@@ -2,116 +2,190 @@ package com.my.library_base.base;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.my.library_base.base.inf.IBaseFragment;
+import com.my.library_base.base.inf.IBaseView;
+
 import org.apache.log4j.Logger;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * Fragment基类
- * @author 曾繁添
- * @version 1.0
  *
+ * @version 1.0
  */
 @SuppressLint("NewApi")
-public abstract class BaseFragment extends Fragment implements IBaseFragment {
-	protected Logger logger = Logger.getLogger(this.getClass());
-	/**当前Fragment渲染的视图View**/
-	private View mContextView = null;
+public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseViewModel> extends Fragment implements IBaseFragment, IBaseView {
+    protected Logger logger = Logger.getLogger(this.getClass());
+    protected V binding;
+    protected VM viewModel;
+    private int viewModelId;
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		logger.info("BaseFragment-->onAttach()");
-	}
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        logger.info("BaseFragment-->onAttach()");
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		logger.info( "BaseFragment-->onCreate()");
-	}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        logger.info("BaseFragment-->onCreate()");
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		logger.info("BaseFragment-->onCreateView()");
-		
-		//渲染视图View(防止切换时重绘View)
-        if (null != mContextView) {
-            ViewGroup parent = (ViewGroup) mContextView.getParent();
-            if (null != parent) {
-                parent.removeView(mContextView);
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = DataBindingUtil.inflate(inflater, initContentView(inflater, container, savedInstanceState), container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //私有的初始化Databinding和ViewModel方法
+        initViewDataBinding();
+
+        //页面数据初始化方法
+        initData();
+        //页面事件监听的方法，一般用于ViewModel层转到View层的事件注册
+        initViewObservable();
+        //注册RxBus
+        viewModel.registerRxBus();
+    }
+
+    /**
+     * 注入绑定
+     */
+    private void initViewDataBinding() {
+        viewModelId = initVariableId();
+        viewModel = initViewModel();
+        if (viewModel == null) {
+            Class modelClass;
+            Type type = getClass().getGenericSuperclass();
+            if (type instanceof ParameterizedType) {
+                modelClass = (Class) ((ParameterizedType) type).getActualTypeArguments()[1];
+            } else {
+                //如果没有指定泛型参数，则默认使用BaseViewModel
+                modelClass = BaseViewModel.class;
             }
-        } else {
-        	mContextView = inflater.inflate(bindLayout(), container);
-        	// 控件初始化
-            initView(mContextView);
-            
+            viewModel = (VM) createViewModel(this, modelClass);
         }
-        
-		//业务处理
-		doBusiness(getActivity());
-		
-		return mContextView;
-	}
+        binding.setVariable(viewModelId, viewModel);
+        //binding.setLifecycleOwner(this);
+    }
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		logger.info("BaseFragment-->onActivityCreated()");
-		super.onActivityCreated(savedInstanceState);
-	}
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		logger.info( "BaseFragment-->onSaveInstanceState()");
-		super.onSaveInstanceState(outState);
-	}
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        logger.info("BaseFragment-->onActivityCreated()");
+        super.onActivityCreated(savedInstanceState);
+    }
 
-	@Override
-	public void onStart() {
-		logger.info("BaseFragment-->onStart()");
-		super.onStart();
-	}
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        logger.info("BaseFragment-->onSaveInstanceState()");
+        super.onSaveInstanceState(outState);
+    }
 
-	@Override
-	public void onResume() {
-		logger.info("BaseFragment-->onResume()");
-		super.onResume();
-	}
+    @Override
+    public void onStart() {
+        logger.info("BaseFragment-->onStart()");
+        super.onStart();
+    }
 
-	@Override
-	public void onPause() {
-		logger.info("BaseFragment-->onPause()");
-		super.onPause();
-	}
+    @Override
+    public void onResume() {
+        logger.info("BaseFragment-->onResume()");
+        super.onResume();
+        resume();
+    }
 
-	@Override
-	public void onStop() {
-		logger.info( "BaseFragment-->onStop()");
-		super.onStop();
-	}
+    @Override
+    public void onPause() {
+        logger.info("BaseFragment-->onPause()");
+        super.onPause();
+    }
 
-	@Override
-	public void onDestroy() {
-		logger.info( "BaseFragment-->onDestroy()");
-		super.onDestroy();
-	}
+    @Override
+    public void onStop() {
+        logger.info("BaseFragment-->onStop()");
+        super.onStop();
+    }
 
-	@Override
-	public void onDetach() {
-		logger.info("BaseFragment-->onDetach()");
-		super.onDetach();
-	}
-	
-	/**
-	 * 获取当前Fragment依附在的Activity
-	 * @return
-	 */
-	protected Activity getActivityContext(){
-		return getActivity();
-	}
+    @Override
+    public void onDestroy() {
+        logger.info("BaseFragment-->onDestroy()");
+        destroy();
+        if (viewModel != null) {
+            viewModel.removeRxBus();
+        }
+        if (binding != null) {
+            binding.unbind();
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDetach() {
+        logger.info("BaseFragment-->onDetach()");
+        super.onDetach();
+    }
+
+    /**
+     * 初始化根布局
+     *
+     * @return 布局layout的id
+     */
+    public abstract int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
+
+    /**
+     * 初始化ViewModel的id
+     *
+     * @return BR的id
+     */
+    public abstract int initVariableId();
+
+    /**
+     * 初始化ViewModel
+     *
+     * @return 继承BaseViewModel的ViewModel
+     */
+    public VM initViewModel() {
+        return null;
+    }
+
+    @Override
+    public void initData() {
+
+    }
+
+    @Override
+    public void initViewObservable() {
+
+    }
+
+    /**
+     * 创建ViewModel
+     *
+     * @param cls
+     * @param <T>
+     * @return
+     */
+    public <T extends ViewModel> T createViewModel(Fragment fragment, Class<T> cls) {
+        return new ViewModelProvider(fragment, new ViewModelProvider.AndroidViewModelFactory(fragment.getActivity().getApplication())).get(cls);
+    }
 }

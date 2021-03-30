@@ -27,9 +27,12 @@ import com.my.library_base.utils.Utils;
 import com.my.library_db.callback.UserCallback;
 import com.my.library_db.db.UserDatabase;
 import com.my.library_db.model.User;
-import com.my.library_image.GlideEngine;
-import com.my.library_image.ImageLoader;
-import com.my.library_image.UserViewInfo;
+import com.my.library_multimedia.image.GlideEngine;
+import com.my.library_multimedia.image.ImageLoader;
+import com.my.library_multimedia.image.UserViewInfo;
+import com.my.library_multimedia.video.VideoPlayerIJK;
+import com.my.library_multimedia.video.VideoPlayerIJKListener;
+import com.my.library_multimedia.video.VideoPlayerIJKUtils;
 import com.my.library_net.callback.ResponseCallback;
 import com.my.library_net.exception.ThrowableHandler;
 import com.my.library_net.net.LoginManage;
@@ -52,6 +55,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import tv.danmaku.ijk.media.player.IMediaPlayer;
 
 @Route(path = ARouterPath.APP_MAIN_ACTIVITY)
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> {
@@ -61,12 +65,17 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     @BindView(R.id.test_glide)
     ImageView testGlide;
 
+    @BindView(R.id.ijk_player)
+    VideoPlayerIJK ijkPlayer;
+
     @Override
     public void initData() {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
 
         ZoomMediaLoader.getInstance().init(new ImageLoader());
+
+        VideoPlayerIJKUtils.getInstance().onInit();
     }
 
     @Override
@@ -89,6 +98,45 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     public void resume() {
         Glide.with(this).load("https://dss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/img/icons_441e82f.png").into(testGlide);
         viewModel.initUser();
+
+        ijkPlayer.setListener(new VideoPlayerIJKListener() {
+            @Override
+            public void onBufferingUpdate(IMediaPlayer iMediaPlayer, int i) {
+
+            }
+
+            @Override
+            public void onCompletion(IMediaPlayer iMediaPlayer) {
+
+            }
+
+            @Override
+            public boolean onError(IMediaPlayer iMediaPlayer, int i, int i1) {
+                return false;
+            }
+
+            @Override
+            public boolean onInfo(IMediaPlayer iMediaPlayer, int i, int i1) {
+                return false;
+            }
+
+            @Override
+            public void onPrepared(IMediaPlayer iMediaPlayer) {
+
+            }
+
+            @Override
+            public void onSeekComplete(IMediaPlayer iMediaPlayer) {
+
+            }
+
+            @Override
+            public void onVideoSizeChanged(IMediaPlayer iMediaPlayer, int i, int i1, int i2, int i3) {
+
+            }
+        });
+
+        ijkPlayer.setVideoPath("/sdcard/ads/videos/trailer.mp4");
     }
 
 
@@ -269,6 +317,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 toast("用户没有在权限设置页授予权限");
             }
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        VideoPlayerIJKUtils.getInstance().onStop();
     }
 
     @Override

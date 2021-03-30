@@ -1,7 +1,7 @@
 # MyFramework
 组件化集成基础控件的框架程序
 
-已完成：
+mmvm模式
 
 bugly crash
 
@@ -33,5 +33,8 @@ permission：XXPermissions
 
 tinker（冲突，暂无解决）
 
-mmvm模式
+下拉刷新：SmartRefreshLayout
 
+RecyclerVIew Adapter:BaseRecyclerViewAdapterHelper
+
+视频播放器：ijkplayer

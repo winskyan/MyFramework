@@ -16,15 +16,15 @@ public class NetModuleInit implements IModuleInit {
     public static Context applicationContext;
 
     @Override
-    public boolean onInitAhead(Application application) {
+    public boolean onInit(Application application) {
         GLog.i("Net层初始化 -- onInitAhead");
         initData(application);
         return true;
     }
 
     @Override
-    public boolean onInitLow(Application application) {
-        GLog.i("Net层初始化 -- onInitLow");
+    public boolean onDestroy(Application application) {
+        GLog.i("Net层销毁 -- onDestroy");
         return true;
     }
 

@@ -15,7 +15,7 @@ public class SettingsModuleInit implements IModuleInit {
     public static Context context;
 
     @Override
-    public boolean onInitAhead(Application application) {
+    public boolean onInit(Application application) {
         init(application);
 
         GLog.i("Settings业务模块初始化 -- onInitAhead");
@@ -24,8 +24,8 @@ public class SettingsModuleInit implements IModuleInit {
 
 
     @Override
-    public boolean onInitLow(Application application) {
-        GLog.i("Settings业务模块初始化 -- onInitLow");
+    public boolean onDestroy(Application application) {
+        GLog.i("Settings业务模块销毁 -- onDestroy");
         return true;
     }
 

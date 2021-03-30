@@ -28,7 +28,7 @@ public class MyApplicationLike extends DefaultApplicationLike {
             Bugly.init(getApplication(), "ad480f08fa", false);
         }
 
-        ModuleLifecycleConfig.getInstance().initModuleAhead(getApplication());
+        ModuleLifecycleConfig.getInstance().initModule(getApplication());
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -48,5 +48,12 @@ public class MyApplicationLike extends DefaultApplicationLike {
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public void registerActivityLifecycleCallback(Application.ActivityLifecycleCallbacks callbacks) {
         getApplication().registerActivityLifecycleCallbacks(callbacks);
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        //fix me,该方法不保证执行
+        ModuleLifecycleConfig.getInstance().destroyModule(getApplication());
     }
 }

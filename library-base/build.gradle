@@ -34,7 +34,7 @@ android {
 
     configurations {
         //排除 prism4j 里的
-        compile.exclude group: 'org.jetbrains' , module:'annotations-java5'
+        compile.exclude group: 'org.jetbrains', module: 'annotations-java5'
     }
 }
 
@@ -69,5 +69,7 @@ dependencies {
     api rootProject.ext.dependencies["lifecycle-extensions"]
     annotationProcessor rootProject.ext.dependencies["lifecycle-compiler"]
     api rootProject.ext.dependencies["databinding:library"]
+    api rootProject.ext.dependencies["refresh-layout-kernel"]
+    api rootProject.ext.dependencies["BaseRecyclerViewAdapterHelper"]
 
 }

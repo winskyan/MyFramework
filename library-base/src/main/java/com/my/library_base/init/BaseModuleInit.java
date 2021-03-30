@@ -23,8 +23,8 @@ public class BaseModuleInit implements IModuleInit {
     public static Context applicationContext;
 
     @Override
-    public boolean onInitAhead(Application application) {
-        GLog.i("基础层初始化 -- onInitAhead");
+    public boolean onInit(Application application) {
+        GLog.i("基础层初始化 -- onInit");
         initData(application);
         ConfigureLog4j.initLog4j();
         //开启打印日志
@@ -46,8 +46,8 @@ public class BaseModuleInit implements IModuleInit {
     }
 
     @Override
-    public boolean onInitLow(Application application) {
-        GLog.i("基础层初始化 -- onInitLow");
+    public boolean onDestroy(Application application) {
+        GLog.i("基础层销毁 -- onDestroy");
         return true;
     }
 

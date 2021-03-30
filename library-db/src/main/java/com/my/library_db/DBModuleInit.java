@@ -17,7 +17,7 @@ public class DBModuleInit implements IModuleInit {
     public static Context applicationContext;
 
     @Override
-    public boolean onInitAhead(Application application) {
+    public boolean onInit(Application application) {
         GLog.i("DB层初始化 -- onInitAhead");
         initData(application);
         DatabaseInit.getInstance().init(application);
@@ -25,8 +25,8 @@ public class DBModuleInit implements IModuleInit {
     }
 
     @Override
-    public boolean onInitLow(Application application) {
-        GLog.i("DB层初始化 -- onInitLow");
+    public boolean onDestroy(Application application) {
+        GLog.i("DB层销毁 -- onDestroy");
         return true;
     }
 

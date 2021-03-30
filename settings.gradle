@@ -1,4 +1,4 @@
-include ':library-image'
+include ':library-multimedia'
 include ':library-ui'
 include ':library-net'
 include ':library-db'

@@ -24,13 +24,13 @@ public class ModuleLifecycleConfig {
     }
 
     //初始化组件-靠前
-    public void initModuleAhead(@Nullable Application application) {
+    public void initModule(@Nullable Application application) {
         for (String moduleInitName : ModuleLifecycleReflexs.initModuleNames) {
             try {
                 Class<?> clazz = Class.forName(moduleInitName);
                 IModuleInit init = (IModuleInit) clazz.newInstance();
                 //调用初始化方法
-                if (!init.onInitAhead(application)) {
+                if (!init.onInit(application)) {
                     GLog.e("基础层初始化失败 -- onInitAhead");
                 }
             } catch (ClassNotFoundException e) {
@@ -45,15 +45,15 @@ public class ModuleLifecycleConfig {
         }
     }
 
-    //初始化组件-靠后
-    public void initModuleLow(@Nullable Application application) {
+    //销毁组件
+    public void destroyModule(@Nullable Application application) {
         for (String moduleInitName : ModuleLifecycleReflexs.initModuleNames) {
             try {
                 Class<?> clazz = Class.forName(moduleInitName);
                 IModuleInit init = (IModuleInit) clazz.newInstance();
                 //调用初始化方法
-                if (!init.onInitLow(application)) {
-                    GLog.e("基础层初始化失败 -- onInitLow");
+                if (!init.onDestroy(application)) {
+                    GLog.e("基础层销毁失败 -- onInitLow");
                 }
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();

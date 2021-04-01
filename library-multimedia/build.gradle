@@ -26,6 +26,5 @@ dependencies {
     api rootProject.ext.dependencies["PictureSelector"]
     api rootProject.ext.dependencies["ImagePreview"]
     api rootProject.ext.dependencies["lottie"]
-    api rootProject.ext.dependencies["ijkplayer-java"]
-    api rootProject.ext.dependencies["ijkplayer-armv7a"]
+    api rootProject.ext.dependencies["GSYVideoPlayer"]
 }

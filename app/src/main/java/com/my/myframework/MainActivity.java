@@ -42,6 +42,7 @@ import com.my.myframework.databinding.ActivityMainBinding;
 import com.my.myframework.viewmodel.MainViewModel;
 import com.previewlibrary.GPreviewBuilder;
 import com.previewlibrary.ZoomMediaLoader;
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 import org.apache.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
@@ -67,6 +68,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     @BindView(R.id.ijk_player)
     VideoPlayerIJK ijkPlayer;
+
+    @BindView(R.id.test_gsy_vv)
+    StandardGSYVideoPlayer testGsyVideoPlayer;
 
     @Override
     public void initData() {
@@ -137,6 +141,30 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         });
 
         ijkPlayer.setVideoPath("/sdcard/ads/videos/trailer.mp4");
+
+
+        String source1 = "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4";
+        testGsyVideoPlayer.setUp(source1, false, "测试视频");
+
+        //增加封面
+        ImageView imageView = new ImageView(this);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        imageView.setImageResource(R.mipmap.ic_launcher);
+        testGsyVideoPlayer.setThumbImageView(imageView);
+        //增加title
+        testGsyVideoPlayer.getTitleTextView().setVisibility(View.VISIBLE);
+        //设置返回键
+        testGsyVideoPlayer.getBackButton().setVisibility(View.VISIBLE);
+        //是否可以滑动调整
+        testGsyVideoPlayer.setIsTouchWiget(true);
+        //设置返回按键功能
+        testGsyVideoPlayer.getBackButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //onBackPressed();
+            }
+        });
+        testGsyVideoPlayer.startPlayLogic();
     }
 
 

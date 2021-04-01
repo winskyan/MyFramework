@@ -10,132 +10,150 @@
             type="com.my.myframework.viewmodel.MainViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:overScrollMode="never"
+        android:scrollbars="none">
 
-        <Button
-            android:id="@+id/test_app_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="APP主页面，点击调转Main module页面"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/test_eventbus_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="测试eventbus"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/test_app_btn" />
 
-        <Button
-            android:id="@+id/test_mmkv_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="测试mmkv"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/test_eventbus_btn" />
-
-        <Button
-            android:id="@+id/test_room_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="测试room数据库"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/test_mmkv_btn" />
-
-        <Button
-            android:id="@+id/test_http_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="测试retorfit2+Rxjava+okhttp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/test_room_btn" />
-
-        <ImageView
-            android:id="@+id/test_glide"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/test_http_btn" />
-
-        <Button
-            android:id="@+id/test_pictureselector_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="测试PictureSelector"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/test_glide" />
-
-        <Button
-            android:id="@+id/test_imagepreview_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="测试ImagePreview"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/test_pictureselector_btn" />
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottieAnimationView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/test_imagepreview_btn"
-            app:lottie_autoPlay="true"
-            app:lottie_imageAssetsFolder="images"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/heart" />
-
-        <Button
-            android:id="@+id/test_xxpermission_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="测试XXPermissions"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lottieAnimationView" />
-
-        <LinearLayout
-            android:id="@+id/mvvm_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/test_xxpermission_btn">
-
-            <TextView
+            <Button
+                android:id="@+id/test_app_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{mainViewModel.userData.firstName}"
-                android:textColor="@color/teal_200" />
+                android:text="APP主页面，点击调转Main module页面"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <Button
+                android:id="@+id/test_eventbus_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{mainViewModel.userData.lastName}"
-                android:textColor="@color/teal_200" />
+                android:text="测试eventbus"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/test_app_btn" />
 
-        </LinearLayout>
+            <Button
+                android:id="@+id/test_mmkv_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="测试mmkv"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/test_eventbus_btn" />
 
-        <com.my.library_multimedia.video.VideoPlayerIJK
-            android:id="@+id/ijk_player"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mvvm_layout" />
+            <Button
+                android:id="@+id/test_room_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="测试room数据库"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/test_mmkv_btn" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/test_http_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="测试retorfit2+Rxjava+okhttp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/test_room_btn" />
+
+            <ImageView
+                android:id="@+id/test_glide"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/test_http_btn" />
+
+            <Button
+                android:id="@+id/test_pictureselector_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="测试PictureSelector"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/test_glide" />
+
+            <Button
+                android:id="@+id/test_imagepreview_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="测试ImagePreview"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/test_pictureselector_btn" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottieAnimationView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/test_imagepreview_btn"
+                app:lottie_autoPlay="true"
+                app:lottie_imageAssetsFolder="images"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/heart" />
+
+            <Button
+                android:id="@+id/test_xxpermission_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="测试XXPermissions"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lottieAnimationView" />
+
+            <LinearLayout
+                android:id="@+id/mvvm_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/test_xxpermission_btn">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{mainViewModel.userData.firstName}"
+                    android:textColor="@color/teal_200" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{mainViewModel.userData.lastName}"
+                    android:textColor="@color/teal_200" />
+
+            </LinearLayout>
+
+            <com.my.library_multimedia.video.VideoPlayerIJK
+                android:id="@+id/ijk_player"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mvvm_layout" />
+
+            <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+                android:id="@+id/test_gsy_vv"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ijk_player" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

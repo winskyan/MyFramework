@@ -37,4 +37,4 @@ tinker（冲突，暂无解决）
 
 RecyclerVIew Adapter:BaseRecyclerViewAdapterHelper
 
-视频播放器：ijkplayer
+视频播放器：GSYVideoPlayer(ijkplayer)

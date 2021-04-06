@@ -2,16 +2,18 @@ package com.my.library_base.init;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.Handler;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.hjq.permissions.XXPermissions;
 import com.my.library_base.BuildConfig;
+import com.my.library_base.config.SysConfig;
+import com.my.library_base.constants.Constants;
+import com.my.library_base.constants.KeyConstants;
 import com.my.library_base.logs.ConfigureLog4j;
 import com.my.library_base.logs.GLog;
 import com.tencent.mmkv.MMKV;
-
-import static android.os.Looper.getMainLooper;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 
 
 /**
@@ -42,6 +44,16 @@ public class BaseModuleInit implements IModuleInit {
 
         // 当前项目是否已经适配了分区存储的特性
         XXPermissions.setScopedStorage(true);
+
+        if (SysConfig.UM_ENABLE) {
+            UMConfigure.init(application, KeyConstants.UM_SDK, Constants.DEFAULT_CHANNEL, UMConfigure.DEVICE_TYPE_PHONE, "");
+
+            //选择AUTO页面采集模式，统计SDK基础指标无需手动埋点可自动采集。
+            MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.LEGACY_MANUAL);
+            UMConfigure.setLogEnabled(SysConfig.UM_LOG);
+            // 支持在子进程中统计自定义事件
+            UMConfigure.setProcessEvent(true);
+        }
         return true;
     }
 

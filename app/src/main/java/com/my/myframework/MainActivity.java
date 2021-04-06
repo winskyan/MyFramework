@@ -42,7 +42,9 @@ import com.my.myframework.databinding.ActivityMainBinding;
 import com.my.myframework.viewmodel.MainViewModel;
 import com.previewlibrary.GPreviewBuilder;
 import com.previewlibrary.ZoomMediaLoader;
+import com.shuyu.gsyvideoplayer.player.IjkPlayerManager;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
+import com.umeng.analytics.MobclickAgent;
 
 import org.apache.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
@@ -57,6 +59,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
+import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
 @Route(path = ARouterPath.APP_MAIN_ACTIVITY)
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> {
@@ -164,6 +167,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 //onBackPressed();
             }
         });
+        IjkPlayerManager.setLogLevel(IjkMediaPlayer.IJK_LOG_SILENT);
         testGsyVideoPlayer.startPlayLogic();
     }
 
@@ -186,6 +190,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 Utils.aRouteGoto(ARouterPath.MAIN_MAIN_ACTIVITY, null);
                 break;
             case R.id.test_eventbus_btn:
+                MobclickAgent.onEvent(this,"test_page");
                 EventBus.getDefault().post(new EventBusMessageEvent(EventBusConstants.TEST_CODE, "Hello everyone!"));
                 break;
             case R.id.test_mmkv_btn:

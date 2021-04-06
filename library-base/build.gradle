@@ -71,5 +71,6 @@ dependencies {
     api rootProject.ext.dependencies["databinding:library"]
     api rootProject.ext.dependencies["refresh-layout-kernel"]
     api rootProject.ext.dependencies["BaseRecyclerViewAdapterHelper"]
-
+    api rootProject.ext.dependencies["umsdk:commo"]
+    api rootProject.ext.dependencies["umsdk:asms"]
 }

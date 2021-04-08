@@ -26,7 +26,7 @@ ext {
             "junit-version"       : "4.+",
             arouterApiVersion     : "1.5.0",
             arouterCompilerVersion: "1.2.2",
-            butterknifeVersion    : "10.0.0",
+            butterknifeVersion    : "10.2.3",
             eventbusVersion       : "3.1.1",
             room                  : "2.2.6",
     ]
@@ -85,6 +85,7 @@ ext {
             "GSYVideoPlayer"               : "com.shuyu:GSYVideoPlayer:8.1.2",
             "umsdk:commo"                  : "com.umeng.umsdk:common:9.3.6",
             "umsdk:asms"                   : "com.umeng.umsdk:asms:1.2.0",
+            "agentweb"                     : "com.just.agentweb:agentweb-androidx:4.1.4",
 
     ]
 }

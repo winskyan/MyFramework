@@ -1,5 +1,6 @@
 package com.my.library_base.utils;
 
+import com.my.library_base.constants.Constants;
 import com.tencent.mmkv.MMKV;
 
 public class MMKVUtils {
@@ -10,9 +11,9 @@ public class MMKVUtils {
         mmkv = MMKV.mmkvWithID(id);
     }
 
-    public static MMKVUtils getInstance(String id) {
+    public static MMKVUtils getInstance() {
         if (null == mmkvUtils) {
-            mmkvUtils = new MMKVUtils(id);
+            mmkvUtils = new MMKVUtils(Constants.MMKV_ID);
         }
         return mmkvUtils;
     }
@@ -30,15 +31,15 @@ public class MMKVUtils {
     }
 
     public String getStringValue(String key) {
-        return mmkv.decodeString(key);
+        return mmkv.decodeString(key, "");
     }
 
     public boolean getBooleanValue(String key) {
-        return mmkv.decodeBool(key);
+        return mmkv.decodeBool(key, false);
     }
 
     public int getIntValue(String key) {
-        return mmkv.decodeInt(key);
+        return mmkv.decodeInt(key, -1);
     }
 
     public void remove(String key) {

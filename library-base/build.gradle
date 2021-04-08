@@ -73,4 +73,5 @@ dependencies {
     api rootProject.ext.dependencies["BaseRecyclerViewAdapterHelper"]
     api rootProject.ext.dependencies["umsdk:commo"]
     api rootProject.ext.dependencies["umsdk:asms"]
+    api rootProject.ext.dependencies["agentweb"]
 }

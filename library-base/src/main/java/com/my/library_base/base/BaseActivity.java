@@ -20,12 +20,15 @@ import com.my.library_base.base.inf.IBaseView;
 import com.my.library_res.R;
 
 import org.apache.log4j.Logger;
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+
+import butterknife.ButterKnife;
 
 
 /**
@@ -60,7 +63,11 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
 
         //显示VoerFlowMenu
         displayOverflowMenu(getContext());
+
+        ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
     }
+
 
     /**
      * 注入绑定
@@ -126,6 +133,8 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         if (binding != null) {
             binding.unbind();
         }
+
+        EventBus.getDefault().unregister(this);
         destroy();
         super.onDestroy();
     }

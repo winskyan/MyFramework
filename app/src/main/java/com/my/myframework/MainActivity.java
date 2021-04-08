@@ -19,8 +19,8 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
 import com.my.library_base.base.BaseActivity;
+import com.my.library_base.constants.ARouterConstants;
 import com.my.library_base.constants.EventBusConstants;
-import com.my.library_base.init.ARouterPath;
 import com.my.library_base.model.EventBusMessageEvent;
 import com.my.library_base.utils.MMKVUtils;
 import com.my.library_base.utils.Utils;
@@ -53,15 +53,16 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
-@Route(path = ARouterPath.APP_MAIN_ACTIVITY)
+@Route(path = ARouterConstants.PATH_APP_MAIN_ACTIVITY)
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> {
 
     Logger logger = Logger.getLogger(MainActivity.class);
@@ -77,9 +78,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     @Override
     public void initData() {
-        ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
-
         ZoomMediaLoader.getInstance().init(new ImageLoader());
 
         VideoPlayerIJKUtils.getInstance().onInit();
@@ -105,70 +103,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     public void resume() {
         Glide.with(this).load("https://dss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/img/icons_441e82f.png").into(testGlide);
         viewModel.initUser();
-
-        ijkPlayer.setListener(new VideoPlayerIJKListener() {
-            @Override
-            public void onBufferingUpdate(IMediaPlayer iMediaPlayer, int i) {
-
-            }
-
-            @Override
-            public void onCompletion(IMediaPlayer iMediaPlayer) {
-
-            }
-
-            @Override
-            public boolean onError(IMediaPlayer iMediaPlayer, int i, int i1) {
-                return false;
-            }
-
-            @Override
-            public boolean onInfo(IMediaPlayer iMediaPlayer, int i, int i1) {
-                return false;
-            }
-
-            @Override
-            public void onPrepared(IMediaPlayer iMediaPlayer) {
-
-            }
-
-            @Override
-            public void onSeekComplete(IMediaPlayer iMediaPlayer) {
-
-            }
-
-            @Override
-            public void onVideoSizeChanged(IMediaPlayer iMediaPlayer, int i, int i1, int i2, int i3) {
-
-            }
-        });
-
-        ijkPlayer.setVideoPath("/sdcard/ads/videos/trailer.mp4");
-
-
-        String source1 = "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4";
-        testGsyVideoPlayer.setUp(source1, false, "测试视频");
-
-        //增加封面
-        ImageView imageView = new ImageView(this);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setImageResource(R.mipmap.ic_launcher);
-        testGsyVideoPlayer.setThumbImageView(imageView);
-        //增加title
-        testGsyVideoPlayer.getTitleTextView().setVisibility(View.VISIBLE);
-        //设置返回键
-        testGsyVideoPlayer.getBackButton().setVisibility(View.VISIBLE);
-        //是否可以滑动调整
-        testGsyVideoPlayer.setIsTouchWiget(true);
-        //设置返回按键功能
-        testGsyVideoPlayer.getBackButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //onBackPressed();
-            }
-        });
-        IjkPlayerManager.setLogLevel(IjkMediaPlayer.IJK_LOG_SILENT);
-        testGsyVideoPlayer.startPlayLogic();
     }
 
 
@@ -183,18 +117,19 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     }
 
     @OnClick({R.id.test_app_btn, R.id.test_eventbus_btn, R.id.test_mmkv_btn, R.id.test_room_btn, R.id.test_http_btn, R.id.test_pictureselector_btn
-            , R.id.test_imagepreview_btn, R.id.test_xxpermission_btn})
+            , R.id.test_imagepreview_btn, R.id.test_xxpermission_btn, R.id.test_privacy_policy})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.test_app_btn:
-                Utils.aRouteGoto(ARouterPath.MAIN_MAIN_ACTIVITY, null);
+                Utils.aRouteGoto(ARouterConstants.PATH_MAIN_MAIN_ACTIVITY, null);
                 break;
             case R.id.test_eventbus_btn:
-                MobclickAgent.onEvent(this,"test_page");
+                //友盟埋点
+                MobclickAgent.onEvent(this, "test_page");
                 EventBus.getDefault().post(new EventBusMessageEvent(EventBusConstants.TEST_CODE, "Hello everyone!"));
                 break;
             case R.id.test_mmkv_btn:
-                MMKVUtils mmkvUtils = MMKVUtils.getInstance("app");
+                MMKVUtils mmkvUtils = MMKVUtils.getInstance();
                 mmkvUtils.setValue("test1", 1);
                 mmkvUtils.setValue("test2", "2");
                 mmkvUtils.setValue("test3", false);
@@ -326,6 +261,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                             }
                         });
                 break;
+            case R.id.test_privacy_policy:
+                Map<String, String> args = new HashMap<>(1);
+                args.put(ARouterConstants.ARGS_URL, "https://www.baidu.com");
+                Utils.aRouteGoto(ARouterConstants.PATH_UI_WEB_VIEW, args);
+                break;
         }
     }
 
@@ -360,6 +300,73 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     @Override
     public void destroy() {
-        EventBus.getDefault().unregister(this);
+
+    }
+
+    @OnClick(R.id.test_gsy_video_player)
+    public void onClickGsy(View v) {
+        ijkPlayer.setListener(new VideoPlayerIJKListener() {
+            @Override
+            public void onBufferingUpdate(IMediaPlayer iMediaPlayer, int i) {
+
+            }
+
+            @Override
+            public void onCompletion(IMediaPlayer iMediaPlayer) {
+
+            }
+
+            @Override
+            public boolean onError(IMediaPlayer iMediaPlayer, int i, int i1) {
+                return false;
+            }
+
+            @Override
+            public boolean onInfo(IMediaPlayer iMediaPlayer, int i, int i1) {
+                return false;
+            }
+
+            @Override
+            public void onPrepared(IMediaPlayer iMediaPlayer) {
+
+            }
+
+            @Override
+            public void onSeekComplete(IMediaPlayer iMediaPlayer) {
+
+            }
+
+            @Override
+            public void onVideoSizeChanged(IMediaPlayer iMediaPlayer, int i, int i1, int i2, int i3) {
+
+            }
+        });
+
+        ijkPlayer.setVideoPath("/sdcard/ads/videos/trailer.mp4");
+
+
+        String source1 = "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4";
+        testGsyVideoPlayer.setUp(source1, false, "测试视频");
+
+        //增加封面
+        ImageView imageView = new ImageView(this);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        imageView.setImageResource(R.mipmap.ic_launcher);
+        testGsyVideoPlayer.setThumbImageView(imageView);
+        //增加title
+        testGsyVideoPlayer.getTitleTextView().setVisibility(View.VISIBLE);
+        //设置返回键
+        testGsyVideoPlayer.getBackButton().setVisibility(View.VISIBLE);
+        //是否可以滑动调整
+        testGsyVideoPlayer.setIsTouchWiget(true);
+        //设置返回按键功能
+        testGsyVideoPlayer.getBackButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //onBackPressed();
+            }
+        });
+        IjkPlayerManager.setLogLevel(IjkMediaPlayer.IJK_LOG_SILENT);
+        testGsyVideoPlayer.startPlayLogic();
     }
 }

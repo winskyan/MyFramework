@@ -100,6 +100,7 @@ dependencies {
         implementation project(path: ':library-db')
         implementation project(path: ':library-net')
         implementation project(path: ':library-multimedia')
+        implementation project(path: ':library-ui')
     }
 
     implementation rootProject.ext.dependencies["multidex"]

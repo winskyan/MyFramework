@@ -13,6 +13,10 @@ public class DateTimeUtils {
      * 日期格式：yyyy-MM-dd HH:mm:ss
      **/
     public static final String DF_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
+    /**
+     * 日期格式：yyyyMMddHHmmss
+     **/
+    public static final String DF_YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
 
     /**
      * 日期格式：yyyy-MM-dd HH:mm

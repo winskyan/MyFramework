@@ -42,3 +42,7 @@ RecyclerVIew Adapter:BaseRecyclerViewAdapterHelper
 友盟：数据统计、埋点
 
 webview:Agentweb
+
+加固：360加固
+
+多渠道打包：walle

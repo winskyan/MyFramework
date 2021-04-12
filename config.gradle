@@ -86,6 +86,8 @@ ext {
             "umsdk:commo"                  : "com.umeng.umsdk:common:9.3.6",
             "umsdk:asms"                   : "com.umeng.umsdk:asms:1.2.0",
             "agentweb"                     : "com.just.agentweb:agentweb-androidx:4.1.4",
+            "ultimatebarx"                 : "com.zackratos.ultimatebarx:ultimatebarx:0.6.0",
+            "titlebar"                     : "com.wuhenzhizao:titlebar:1.2.0",
 
     ]
 }

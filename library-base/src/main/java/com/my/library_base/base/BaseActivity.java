@@ -2,6 +2,7 @@ package com.my.library_base.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -18,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.my.library_base.base.inf.IBaseActivity;
 import com.my.library_base.base.inf.IBaseView;
 import com.my.library_res.R;
+import com.zackratos.ultimatebarx.ultimatebarx.UltimateBarX;
 
 import org.apache.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
@@ -66,6 +68,23 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
 
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
+
+        initStatusBar();
+        initTitleBar();
+    }
+
+    protected void initStatusBar() {
+        UltimateBarX.with(this)
+                .color(Color.RED)
+                .fitWindow(true)
+                .light(false)
+                .applyStatusBar();
+    }
+
+    private void initTitleBar() {
+        if (getSupportActionBar() != null){
+            getSupportActionBar().hide();
+        }
     }
 
 

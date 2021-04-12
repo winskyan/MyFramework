@@ -1,5 +1,6 @@
 package com.my.library_ui.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.my.library_base.constants.ARouterConstants;
 import com.my.library_ui.R;
 import com.my.library_ui.R2;
 import com.my.library_ui.TitleBar;
+import com.zackratos.ultimatebarx.ultimatebarx.UltimateBarX;
 
 import org.apache.log4j.Logger;
 
@@ -65,8 +67,23 @@ public class WebViewActivity extends AppCompatActivity {
                 super.onReceivedTitle(view, title);
             }
         });
+        initStatusBar();
+        initTitleBar();
 
+    }
 
+    protected void initStatusBar() {
+        UltimateBarX.with(this)
+                .color(Color.RED)
+                .fitWindow(true)
+                .light(false)
+                .applyStatusBar();
+    }
+
+    private void initTitleBar() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
     }
 
     @Override

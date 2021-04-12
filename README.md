@@ -46,3 +46,7 @@ webview:Agentweb
 加固：360加固
 
 多渠道打包：walle
+
+状态栏、导航栏：ultimatebarx
+
+标题栏：wuhenzhizao:titlebar

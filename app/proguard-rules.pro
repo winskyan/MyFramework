@@ -72,3 +72,6 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+
+-keep class com.zackratos.ultimatebarx.ultimatebarx.** { *; }
+-keep public class * extends androidx.fragment.app.Fragment { *; }

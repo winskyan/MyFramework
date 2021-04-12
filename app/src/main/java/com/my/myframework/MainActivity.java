@@ -45,6 +45,7 @@ import com.previewlibrary.ZoomMediaLoader;
 import com.shuyu.gsyvideoplayer.player.IjkPlayerManager;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.umeng.analytics.MobclickAgent;
+import com.wuhenzhizao.titlebar.widget.CommonTitleBar;
 
 import org.apache.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
@@ -76,6 +77,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     @BindView(R.id.test_gsy_vv)
     StandardGSYVideoPlayer testGsyVideoPlayer;
 
+    @BindView(R.id.titlebar)
+    CommonTitleBar titleBar;
+
     @Override
     public void initData() {
         ZoomMediaLoader.getInstance().init(new ImageLoader());
@@ -103,6 +107,22 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     public void resume() {
         Glide.with(this).load("https://dss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/img/icons_441e82f.png").into(testGlide);
         viewModel.initUser();
+
+        titleBar.setListener((v, action, extra) -> {
+            if (action == CommonTitleBar.ACTION_LEFT_TEXT) {
+
+            }
+            // CommonTitleBar.ACTION_LEFT_TEXT;        // 左边TextView被点击
+            // CommonTitleBar.ACTION_LEFT_BUTTON;      // 左边ImageBtn被点击
+            // CommonTitleBar.ACTION_RIGHT_TEXT;       // 右边TextView被点击
+            // CommonTitleBar.ACTION_RIGHT_BUTTON;     // 右边ImageBtn被点击
+            // CommonTitleBar.ACTION_SEARCH;           // 搜索框被点击,搜索框不可输入的状态下会被触发
+            // CommonTitleBar.ACTION_SEARCH_SUBMIT;    // 搜索框输入状态下,键盘提交触发，此时，extra为输入内容
+            // CommonTitleBar.ACTION_SEARCH_VOICE;     // 语音按钮被点击
+            // CommonTitleBar.ACTION_SEARCH_DELETE;    // 搜索删除按钮被点击
+            // CommonTitleBar.ACTION_CENTER_TEXT;      // 中间文字点击
+        });
+
     }
 
 

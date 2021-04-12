@@ -8,7 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.my.library_base.base.inf.IBaseFragment;
 import com.my.library_base.base.inf.IBaseView;
@@ -20,6 +24,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 import butterknife.ButterKnife;
 
@@ -29,9 +35,11 @@ import butterknife.ButterKnife;
  * @version 1.0
  */
 @SuppressLint("NewApi")
-public abstract class BaseFragment extends Fragment implements IBaseFragment, IBaseView {
+public abstract class MVVMBaseFragment<V extends ViewDataBinding, VM extends BaseViewModel> extends Fragment implements IBaseFragment, IBaseView {
     protected Logger logger = Logger.getLogger(this.getClass());
-
+    protected V binding;
+    protected VM viewModel;
+    private int viewModelId;
     /**
      * 当前Activity的弱引用，防止内存泄露
      **/
@@ -46,13 +54,15 @@ public abstract class BaseFragment extends Fragment implements IBaseFragment, IB
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(initContentView(inflater, container, savedInstanceState), null);
-        return view;
+        binding = DataBindingUtil.inflate(inflater, initContentView(inflater, container, savedInstanceState), container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //私有的初始化Databinding和ViewModel方法
+        initViewDataBinding();
 
         ButterKnife.bind(getActivity());
 
@@ -65,6 +75,29 @@ public abstract class BaseFragment extends Fragment implements IBaseFragment, IB
         initData();
         //页面事件监听的方法，一般用于ViewModel层转到View层的事件注册
         initViewObservable();
+        //注册RxBus
+        viewModel.registerRxBus();
+    }
+
+    /**
+     * 注入绑定
+     */
+    private void initViewDataBinding() {
+        viewModelId = initVariableId();
+        viewModel = initViewModel();
+        if (viewModel == null) {
+            Class modelClass;
+            Type type = getClass().getGenericSuperclass();
+            if (type instanceof ParameterizedType) {
+                modelClass = (Class) ((ParameterizedType) type).getActualTypeArguments()[1];
+            } else {
+                //如果没有指定泛型参数，则默认使用BaseViewModel
+                modelClass = BaseViewModel.class;
+            }
+            viewModel = (VM) createViewModel(this, modelClass);
+        }
+        binding.setVariable(viewModelId, viewModel);
+        //binding.setLifecycleOwner(this);
     }
 
 
@@ -109,7 +142,14 @@ public abstract class BaseFragment extends Fragment implements IBaseFragment, IB
     public void onDestroy() {
         logger.info("BaseFragment-->onDestroy()");
         EventBus.getDefault().unregister(this);
+        if (viewModel != null) {
+            viewModel.removeRxBus();
+        }
+        if (binding != null) {
+            binding.unbind();
+        }
         destroy();
+
         super.onDestroy();
     }
 
@@ -126,6 +166,21 @@ public abstract class BaseFragment extends Fragment implements IBaseFragment, IB
      */
     public abstract int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
 
+    /**
+     * 初始化ViewModel的id
+     *
+     * @return BR的id
+     */
+    public abstract int initVariableId();
+
+    /**
+     * 初始化ViewModel
+     *
+     * @return 继承BaseViewModel的ViewModel
+     */
+    public VM initViewModel() {
+        return null;
+    }
 
     @Override
     public void initData() {
@@ -135,6 +190,17 @@ public abstract class BaseFragment extends Fragment implements IBaseFragment, IB
     @Override
     public void initViewObservable() {
 
+    }
+
+    /**
+     * 创建ViewModel
+     *
+     * @param cls
+     * @param <T>
+     * @return
+     */
+    public <T extends ViewModel> T createViewModel(Fragment fragment, Class<T> cls) {
+        return new ViewModelProvider(fragment, new ViewModelProvider.AndroidViewModelFactory(fragment.getActivity().getApplication())).get(cls);
     }
 
     // 在主线程展示 Toast 结果

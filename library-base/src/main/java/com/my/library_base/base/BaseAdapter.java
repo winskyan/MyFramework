@@ -132,8 +132,8 @@ public abstract class BaseAdapter extends android.widget.BaseAdapter {
 	public Activity getActivity(){
 		if(null == mContext ) return null;
 		
-		if(mContext instanceof BaseActivity)
-			return (BaseActivity)mContext;
+		if(mContext instanceof MVVMBaseActivity)
+			return (MVVMBaseActivity)mContext;
 		
 		return null;
 	}

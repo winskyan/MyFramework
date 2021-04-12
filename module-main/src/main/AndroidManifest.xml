@@ -3,7 +3,7 @@
     package="com.my.moudle_main">
 
     <application>
-        <activity android:name=".ui.MainModuleActivity" />
+        <activity android:name=".MainModuleActivity" />
 
     </application>
 </manifest>

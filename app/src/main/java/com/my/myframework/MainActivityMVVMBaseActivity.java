@@ -18,7 +18,7 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
-import com.my.library_base.base.BaseActivity;
+import com.my.library_base.base.MVVMBaseActivity;
 import com.my.library_base.constants.ARouterConstants;
 import com.my.library_base.constants.EventBusConstants;
 import com.my.library_base.model.EventBusMessageEvent;
@@ -49,8 +49,6 @@ import com.wuhenzhizao.titlebar.widget.CommonTitleBar;
 
 import org.apache.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,9 +62,9 @@ import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
 @Route(path = ARouterConstants.PATH_APP_MAIN_ACTIVITY)
-public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> {
+public class MainActivityMVVMBaseActivity extends MVVMBaseActivity<ActivityMainBinding, MainViewModel> {
 
-    Logger logger = Logger.getLogger(MainActivity.class);
+    Logger logger = Logger.getLogger(MainActivityMVVMBaseActivity.class);
 
     @BindView(R.id.test_glide)
     ImageView testGlide;
@@ -165,7 +163,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 UserCallback userCallback = new UserCallback() {
                     @Override
                     public void onLoadUsers(List<User> users) {
-                        Toast.makeText(MainActivity.this, "查询用户成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivityMVVMBaseActivity.this, "查询用户成功", Toast.LENGTH_SHORT).show();
                         for (User u : users) {
                             logger.info("查询用户成功" + u);
                         }
@@ -173,7 +171,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
                     @Override
                     public void onAdded() {
-                        Toast.makeText(MainActivity.this, "添加用户成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivityMVVMBaseActivity.this, "添加用户成功", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -188,7 +186,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
                     @Override
                     public void onError(String err) {
-                        Toast.makeText(MainActivity.this, err, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivityMVVMBaseActivity.this, err, Toast.LENGTH_SHORT).show();
                     }
                 };
                 UserDatabase.getUserDatabase().addUser(userCallback, user);
@@ -274,7 +272,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                                 if (never) {
                                     toast("被永久拒绝授权，请手动授予读取手机状态和写SD卡权限");
                                     // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                                    XXPermissions.startPermissionActivity(MainActivity.this, permissions);
+                                    XXPermissions.startPermissionActivity(MainActivityMVVMBaseActivity.this, permissions);
                                 } else {
                                     toast("获取录音和日历权限失败");
                                 }
@@ -290,7 +288,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     }
 
     // 在主线程展示 Toast 结果
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Override
     public void onMessageEvent(EventBusMessageEvent event) {
         toast(event.getMessage());
     }

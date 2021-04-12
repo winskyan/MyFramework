@@ -27,7 +27,7 @@ Gif：lottie
 
 permission：XXPermissions
 
-自定义控件（暂无添加）
+自定义控件
 
 移动端组件库：chameleon（暂无添加）
 
@@ -50,3 +50,5 @@ webview:Agentweb
 状态栏、导航栏：ultimatebarx
 
 标题栏：wuhenzhizao:titlebar
+
+底部导航栏：EasyNavigation

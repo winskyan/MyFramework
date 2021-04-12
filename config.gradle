@@ -88,6 +88,7 @@ ext {
             "agentweb"                     : "com.just.agentweb:agentweb-androidx:4.1.4",
             "ultimatebarx"                 : "com.zackratos.ultimatebarx:ultimatebarx:0.6.0",
             "titlebar"                     : "com.wuhenzhizao:titlebar:1.2.0",
+            "EasyNavigation"               : "com.github.Vincent7Wong:EasyNavigation:2.0.5",
 
     ]
 }

@@ -12,9 +12,10 @@ android {
 }
 
 dependencies {
+
     implementation project(path: ':library-base')
     implementation project(path: ':library-res')
-
+    implementation project(path: ':module-settings')
 
     // 黄油刀
     annotationProcessor rootProject.ext.dependencies["butterknife_compiler"]

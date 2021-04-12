@@ -1,7 +1,11 @@
 package com.my.library_base.utils;
 
+import android.content.Context;
+
 import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.launcher.ARouter;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
@@ -16,4 +20,9 @@ public class Utils {
         }
         postcard.navigation();
     }
+
+    public static String getStringByResId(@NotNull Context context, @NotNull int resId) {
+        return context.getResources().getString(resId);
+    }
+
 }

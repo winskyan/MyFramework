@@ -1,3 +1,4 @@
 <resources>
     <dimen name="title_bar_height">40dp</dimen>
+    <dimen name="title_bar_center_title_text_size">20sp</dimen>
 </resources>

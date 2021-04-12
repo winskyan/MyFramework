@@ -22,13 +22,14 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             titlebar:centerText="中间标题"
+            titlebar:centerTextSize="@dimen/title_bar_center_title_text_size"
             titlebar:centerType="textView"
             titlebar:fillStatusBar="false"
             titlebar:leftType="none"
             titlebar:rightImageResource="@drawable/search"
             titlebar:rightType="imageButton"
             titlebar:statusBarMode="light"
-            titlebar:titleBarColor="@color/title_bar"
+            titlebar:titleBarColor="@color/title_bar_bg"
             titlebar:titleBarHeight="@dimen/title_bar_height" />
 
         <androidx.constraintlayout.widget.ConstraintLayout

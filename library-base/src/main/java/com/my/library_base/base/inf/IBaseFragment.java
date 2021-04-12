@@ -1,6 +1,5 @@
 package com.my.library_base.base.inf;
 
-import android.view.View;
 
 /**
  * Fragment接口
@@ -8,13 +7,6 @@ import android.view.View;
  *
  */
 public interface IBaseFragment {
-
-	/**
-	 * 绑定渲染视图的布局文件
-	 *
-	 * @return 布局文件资源id
-	 */
-	View createView();
 
 	/**
 	 * 暂停恢复刷新相关操作（onResume方法中调用）

@@ -76,4 +76,5 @@ dependencies {
     api rootProject.ext.dependencies["agentweb"]
     api rootProject.ext.dependencies["ultimatebarx"]
     api rootProject.ext.dependencies["titlebar"]
+    api rootProject.ext.dependencies["EasyNavigation"]
 }

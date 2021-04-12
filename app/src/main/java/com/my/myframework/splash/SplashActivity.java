@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import com.my.library_base.constants.IntervalTimeConstants;
 import com.my.library_base.constants.MMKVConstants;
 import com.my.library_base.utils.MMKVUtils;
-import com.my.myframework.MainActivity;
+import com.my.myframework.MainActivityMVVMBaseActivity;
 import com.my.myframework.R;
 
 import butterknife.BindView;
@@ -59,7 +59,7 @@ public class SplashActivity extends Activity {
     };
 
     public void getHome() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MainActivityMVVMBaseActivity.class);
         startActivity(intent);
         finish();
     }

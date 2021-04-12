@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivityMVVMBaseActivity" />
 
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"

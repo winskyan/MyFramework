@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.hjq.permissions.XXPermissions;
+import com.liulishuo.filedownloader.FileDownloader;
 import com.my.library_base.BuildConfig;
 import com.my.library_base.config.SysConfig;
 import com.my.library_base.constants.Constants;
@@ -54,6 +55,9 @@ public class BaseModuleInit implements IModuleInit {
             // 支持在子进程中统计自定义事件
             UMConfigure.setProcessEvent(true);
         }
+
+        FileDownloader.setupOnApplicationOnCreate(application);
+
         return true;
     }
 

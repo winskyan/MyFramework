@@ -89,6 +89,10 @@ ext {
             "ultimatebarx"                 : "com.zackratos.ultimatebarx:ultimatebarx:0.6.0",
             "titlebar"                     : "com.wuhenzhizao:titlebar:1.2.0",
             "EasyNavigation"               : "com.github.Vincent7Wong:EasyNavigation:2.0.5",
+            "leakcanary"                   : "com.squareup.leakcanary:leakcanary-android:2.7",
+            "AndroidAutoSize"              : "me.jessyan:autosize:1.2.1",
+            "Toasty"                       : "com.github.GrenderG:Toasty:1.5.0",
+            "filedownloader"               : "com.liulishuo.filedownloader:library:1.7.7",
 
     ]
 }

@@ -58,6 +58,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import es.dmoral.toasty.Toasty;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
@@ -261,20 +262,20 @@ public class MainActivityMVVMBaseActivity extends MVVMBaseActivity<ActivityMainB
                             @Override
                             public void onGranted(List<String> permissions, boolean all) {
                                 if (all) {
-                                    toast("获取读取手机状态和写SD卡权限成功");
+                                    Toasty.success(getContext(), "获取读取手机状态和写SD卡权限成功", Toast.LENGTH_SHORT, true).show();
                                 } else {
-                                    toast("获取部分权限成功，但部分权限未正常授予");
+                                    Toasty.warning(getContext(), "获取部分权限成功，但部分权限未正常授予", Toast.LENGTH_SHORT, true).show();
                                 }
                             }
 
                             @Override
                             public void onDenied(List<String> permissions, boolean never) {
                                 if (never) {
-                                    toast("被永久拒绝授权，请手动授予读取手机状态和写SD卡权限");
+                                    Toasty.error(getContext(), "被永久拒绝授权，请手动授予读取手机状态和写SD卡权限", Toast.LENGTH_SHORT, true).show();
                                     // 如果是被永久拒绝就跳转到应用权限系统设置页面
                                     XXPermissions.startPermissionActivity(MainActivityMVVMBaseActivity.this, permissions);
                                 } else {
-                                    toast("获取录音和日历权限失败");
+                                    Toasty.error(getContext(), "获取录音和日历权限失败", Toast.LENGTH_SHORT, true).show();
                                 }
                             }
                         });
@@ -290,11 +291,7 @@ public class MainActivityMVVMBaseActivity extends MVVMBaseActivity<ActivityMainB
     // 在主线程展示 Toast 结果
     @Override
     public void onMessageEvent(EventBusMessageEvent event) {
-        toast(event.getMessage());
-    }
-
-    private void toast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        Toasty.warning(getContext(), event.getMessage(), Toast.LENGTH_SHORT, true).show();
     }
 
     @Override
@@ -303,9 +300,9 @@ public class MainActivityMVVMBaseActivity extends MVVMBaseActivity<ActivityMainB
         if (requestCode == XXPermissions.REQUEST_CODE) {
             if (XXPermissions.isGranted(this, Permission.READ_PHONE_STATE) &&
                     XXPermissions.isGranted(this, Permission.WRITE_EXTERNAL_STORAGE)) {
-                toast("用户已经在权限设置页授予了获取读取手机状态和写SD卡权限");
+                Toasty.success(getContext(), "用户已经在权限设置页授予了获取读取手机状态和写SD卡权限", Toast.LENGTH_SHORT, true).show();
             } else {
-                toast("用户没有在权限设置页授予权限");
+                Toasty.error(getContext(), "用户没有在权限设置页授予权限", Toast.LENGTH_SHORT, true).show();
             }
         }
     }

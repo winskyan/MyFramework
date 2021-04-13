@@ -77,4 +77,8 @@ dependencies {
     api rootProject.ext.dependencies["ultimatebarx"]
     api rootProject.ext.dependencies["titlebar"]
     api rootProject.ext.dependencies["EasyNavigation"]
+    debugImplementation rootProject.ext.dependencies["leakcanary"]
+    api rootProject.ext.dependencies["AndroidAutoSize"]
+    api rootProject.ext.dependencies["Toasty"]
+    api rootProject.ext.dependencies["filedownloader"]
 }

@@ -52,3 +52,11 @@ webview:Agentweb
 标题栏：wuhenzhizao:titlebar
 
 底部导航栏：EasyNavigation
+
+内存泄漏：leakcanary
+
+屏幕适配方案：AndroidAutoSize
+
+Toast消息：Toasty
+
+文件下载：filedownloader

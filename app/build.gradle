@@ -30,6 +30,10 @@ android {
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
+
+        //dialogv3模糊效果
+        renderscriptTargetApi 17
+        renderscriptSupportModeEnabled true
     }
 
     lintOptions {

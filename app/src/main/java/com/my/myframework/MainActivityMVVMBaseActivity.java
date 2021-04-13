@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -14,6 +15,22 @@ import com.bumptech.glide.Glide;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
+import com.kongzue.dialog.interfaces.OnDismissListener;
+import com.kongzue.dialog.interfaces.OnInputDialogButtonClickListener;
+import com.kongzue.dialog.interfaces.OnMenuItemClickListener;
+import com.kongzue.dialog.interfaces.OnNotificationClickListener;
+import com.kongzue.dialog.util.BaseDialog;
+import com.kongzue.dialog.util.DialogSettings;
+import com.kongzue.dialog.v3.BottomMenu;
+import com.kongzue.dialog.v3.InputDialog;
+import com.kongzue.dialog.v3.MessageDialog;
+import com.kongzue.dialog.v3.Notification;
+import com.kongzue.dialog.v3.TipDialog;
+import com.kongzue.dialog.v3.WaitDialog;
+import com.liulishuo.filedownloader.BaseDownloadTask;
+import com.liulishuo.filedownloader.FileDownloadListener;
+import com.liulishuo.filedownloader.FileDownloader;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -383,5 +400,119 @@ public class MainActivityMVVMBaseActivity extends MVVMBaseActivity<ActivityMainB
         });
         IjkPlayerManager.setLogLevel(IjkMediaPlayer.IJK_LOG_SILENT);
         testGsyVideoPlayer.startPlayLogic();
+    }
+
+    @OnClick(R.id.test_download_file)
+    public void onClickDownloadFile(View v) {
+        String path = Utils.getSDRootPath(getContext()) + "/ads/test.mp4";
+        WaitDialog.show(MainActivityMVVMBaseActivity.this, "正在下载中");
+        FileDownloader.getImpl().create("http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4")
+                .setPath(path)
+                .setListener(new FileDownloadListener() {
+                    @Override
+                    protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                    }
+
+                    @Override
+                    protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
+                    }
+
+                    @Override
+                    protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                        Toasty.info(getContext(), (soFarBytes * 100 / totalBytes) + "%").show();
+                    }
+
+                    @Override
+                    protected void blockComplete(BaseDownloadTask task) {
+                    }
+
+                    @Override
+                    protected void retry(final BaseDownloadTask task, final Throwable ex, final int retryingTimes, final int soFarBytes) {
+                    }
+
+                    @Override
+                    protected void completed(BaseDownloadTask task) {
+                        WaitDialog.dismiss();
+                        Toasty.success(getContext(), "下载成功").show();
+                    }
+
+                    @Override
+                    protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                    }
+
+                    @Override
+                    protected void error(BaseDownloadTask task, Throwable e) {
+                        Toasty.error(getContext(), "下载失败").show();
+                    }
+
+                    @Override
+                    protected void warn(BaseDownloadTask task) {
+                    }
+                }).start();
+    }
+
+    @OnClick(R.id.test_dialogv3)
+    public void onTestDialogV3(View v) {
+        MessageDialog.show(this, "提示", "这是一条消息", "确定");
+
+        MessageDialog.show(this, "提示", "这是一条双按钮消息", "确定", "取消");
+
+        MessageDialog.show(this, "提示", "这是一条三按钮消息", "确定", "取消", "其他");
+
+        MessageDialog.show(this, "更多功能", "点击左边的按钮是无法关掉此对话框的，Kongzue Dialog提供的回调函数可以轻松帮你实现你想要的判断功能", "点我关闭", "我是关不掉的")
+                .setOnCancelButtonClickListener(new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View v) {
+                        return true;                    //位于“取消”位置的按钮点击后无法关闭对话框
+                    }
+                });
+        MessageDialog.build(this)
+                .setStyle(DialogSettings.STYLE.STYLE_MATERIAL)
+                .setTheme(DialogSettings.THEME.DARK)
+                .setTitle("定制化对话框")
+                .setMessage("我是内容")
+                .setOkButton("OK", new OnDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View v) {
+                        Toast.makeText(MainActivityMVVMBaseActivity.this, "点击了OK！", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                })
+                .show();
+        MessageDialog
+                .show(this, "纵向排列", "如果你正在使用iOS风格或Kongzue风格，这里的按钮可以纵向排列，以方便提供更多选择", "还不错", "有点意思", "还有呢？")
+                .setButtonOrientation(LinearLayout.VERTICAL);
+
+        InputDialog.show(this, "输入对话框", "输入一些内容", "确定");
+
+        InputDialog.show(this, "提示", "请输入密码", "确定", "取消")
+                .setOnOkButtonClickListener(new OnInputDialogButtonClickListener() {
+                    @Override
+                    public boolean onClick(BaseDialog baseDialog, View v, String inputStr) {
+                        //inputStr 即当前输入的文本
+                        return false;
+                    }
+                });
+
+        TipDialog.show(this, "警告提示", TipDialog.TYPE.WARNING);
+
+        BottomMenu.show(this, new String[]{"菜单1", "菜单2", "菜单3"}, new OnMenuItemClickListener() {
+            @Override
+            public void onClick(String text, int index) {
+                //返回参数 text 即菜单名称，index 即菜单索引
+            }
+        });
+
+        Notification.show(this, "提示", "提示信息", R.mipmap.me).setOnNotificationClickListener(new OnNotificationClickListener() {
+            @Override
+            public void onClick() {
+                MessageDialog.show(MainActivityMVVMBaseActivity.this, "提示", "点击了消息");
+            }
+        }).setOnDismissListener(new OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                logger.info("消息溜走了");
+            }
+        });
     }
 }

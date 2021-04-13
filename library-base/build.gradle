@@ -81,4 +81,5 @@ dependencies {
     api rootProject.ext.dependencies["AndroidAutoSize"]
     api rootProject.ext.dependencies["Toasty"]
     api rootProject.ext.dependencies["filedownloader"]
+    api rootProject.ext.dependencies["dialog_v3"]
 }

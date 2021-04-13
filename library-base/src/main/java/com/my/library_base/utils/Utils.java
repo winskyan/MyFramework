@@ -7,7 +7,9 @@ import com.alibaba.android.arouter.launcher.ARouter;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class Utils {
@@ -23,6 +25,20 @@ public class Utils {
 
     public static String getStringByResId(@NotNull Context context, @NotNull int resId) {
         return context.getResources().getString(resId);
+    }
+
+    public static String getSDRootPath(Context context) {
+        File externalFileRootDir = context.getExternalFilesDir(null);
+        do {
+            externalFileRootDir = Objects.requireNonNull(externalFileRootDir).getParentFile();
+        } while (Objects.requireNonNull(externalFileRootDir).getAbsolutePath().contains("/Android"));
+
+        return Objects.requireNonNull(externalFileRootDir).getAbsolutePath();
+    }
+
+    public static String getAppFilesPath(Context context) {
+        File externalFileRootDir = context.getExternalFilesDir(null);
+        return externalFileRootDir.getAbsolutePath();
     }
 
 }

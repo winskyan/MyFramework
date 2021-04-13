@@ -93,6 +93,7 @@ ext {
             "AndroidAutoSize"              : "me.jessyan:autosize:1.2.1",
             "Toasty"                       : "com.github.GrenderG:Toasty:1.5.0",
             "filedownloader"               : "com.liulishuo.filedownloader:library:1.7.7",
+            "dialog_v3"                    : "com.kongzue.dialog_v3x:dialog:3.2.4",
 
     ]
 }

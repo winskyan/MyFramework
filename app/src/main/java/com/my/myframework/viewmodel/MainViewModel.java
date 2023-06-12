@@ -30,7 +30,7 @@ public class MainViewModel extends BaseViewModel<User> {
         UserCallback userCallback = new UserCallback() {
             @Override
             public void onLoadUsers(List<com.my.library_db.model.User> users) {
-                if (users != null) {
+                if (users != null && users.size() > 0) {
                     User user = new User();
                     user.setFirstName(users.get(0).getFirstName());
                     user.setLastName(users.get(0).getLastName());
